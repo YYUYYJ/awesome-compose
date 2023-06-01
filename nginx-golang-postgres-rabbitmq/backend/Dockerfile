@@ -1,11 +1,13 @@
 # syntax=docker/dockerfile:1.4
-FROM --platform=$BUILDPLATFORM golang:1.18-alpine AS builder
+FROM --platform=$BUILDPLATFORM golang:1.20-alpine AS builder
 
 WORKDIR /code
 
 ENV CGO_ENABLED 0
 ENV GOPATH /go
 ENV GOCACHE /go-build
+ENV GOPORXY https://goproxy.cn,direct
+ENV GO111MODULE on
 
 COPY go.mod go.sum ./
 RUN --mount=type=cache,target=/go/pkg/mod/cache \
