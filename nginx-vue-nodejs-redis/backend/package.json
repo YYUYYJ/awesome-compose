@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Running Node.js and Express.js on Docker",
+  "main": "src/server.js",
+  "scripts": {
+    "serve": "node src/server.js ",
+    "monitor": "node src/monitor.js",
+    "websocket": "node src/websocket.js",
+    "start": "npm-run-all -p serve monitor websocket",
+    "start-watch": "nodemon src/server.js --inspect=0.0.0.0:9229"
+  },
+  "dependencies": {
+    "express": "^4.17.2",
+    "nodejs-websocket": "^1.7.2",
+    "redis": "3.1.2",
+    "websocket-stream": "^5.5.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4",
+    "npm-run-all": "^4.1.5"
+  },
+  "author": "",
+  "license": "MIT"
+}

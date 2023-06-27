@@ -1,0 +1,39 @@
+services:
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - type: bind
+        source: ./proxy/nginx.conf
+        target: /etc/nginx/conf.d/default.conf
+        read_only: true
+    ports:
+      - 9080:80
+    depends_on:
+      - backend
+  backend:
+    build:
+      args:
+        - NODE_ENV=development
+      context: backend
+      target: development
+    # command: npm run start-watch
+    environment:
+      - NODE_ENV=development
+    ports:
+      - 5000:5000
+      - 9229:9229
+      - 9230:9230
+    hostname: backend
+    volumes:
+      - ./backend/src:/code/src:ro
+      - ./backend/package.json:/code/package.json
+      - ./backend/package-lock.json:/code/package-lock.json
+      - back-notused:/opt/app/node_modules
+    links:
+      - redis
+volumes:
+  back-notused:
